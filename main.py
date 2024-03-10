@@ -1,9 +1,10 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import json
 
-# Define the Discord webhook URL
-webhook_url = 'DISCORD_WEBHOOK_URL'
+# Retrieve the Discord webhook URL from the environment variable
+webhook_url = os.getenv('DISCORD_WEBHOOK_URL')
 
 # Function to scrape top 20 clans from territorial.io
 def scrape_top_clans():
@@ -33,13 +34,13 @@ def send_to_discord(clans, custom_message=None):
         if custom_message:
             payload['content'] = custom_message + '\n' + payload['content']
         requests.post(webhook_url, data=json.dumps(payload), headers={'Content-Type': 'application/json'})
-    except:
-        pass
+    except Exception as e:
+        print("Error sending data to Discord:", e)
 
 # Scrape top 20 clans from territorial.io
 top_20_clans = scrape_top_clans()
 
-#custom message
+# Custom message
 if top_20_clans:
     custom_message = "# Here are the top clans presented by CTV <:ctv:1167501777898328064>"
     send_to_discord(top_20_clans, custom_message)
