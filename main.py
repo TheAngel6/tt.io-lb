@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import json
 
 # Retrieve the Discord webhook URL from the environment variable
-webhook_url = os.getenv('DISCORD_WEBHOOK_URL')
+webhook_url = os.getenv('WEBHOOK_URL')
 
 # Function to scrape top 20 clans from territorial.io
 def scrape_top_clans():
