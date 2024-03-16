@@ -2,8 +2,9 @@ name: CTV
 
 on:
   schedule:
-    # Run every 6 hours
-    - cron: '0 */6 * * *'
+# Run every day at midnight (00:00)
+  - cron: '0 0 * * *'
+
 
 jobs:
   scrape:
