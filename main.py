@@ -6,14 +6,14 @@ import json
 # Retrieve the Discord webhook URL from the environment variable
 webhook_url = os.getenv('WEBHOOK_URL')
 
-# Function to scrape top 20 clans from territorial.io
+# Function to scrape top 30 clans from territorial.io
 def scrape_top_clans():
     try:
         response = requests.get('https://territorial.io/clans')
         soup = BeautifulSoup(response.content, 'html.parser')
         content = response.text
         lines = content.split('\n')
-        top_20_clans = []
+        top_30_clans = []
         for line in lines:
             parts = line.split(',')
             if len(parts) == 3 and parts[0].strip().isdigit():
@@ -22,8 +22,8 @@ def scrape_top_clans():
                 points = parts[2].strip()
                 if name and points.replace('.', '').isdigit():
                     clan_info = f'{rank}. {name} - Points: {points}'
-                    top_20_clans.append(clan_info)
-        return top_20_clans[:20]
+                    top_30_clans.append(clan_info)
+        return top_30_clans[:30]
     except Exception as e:
         return None
 
@@ -37,10 +37,10 @@ def send_to_discord(clans, custom_message=None):
     except Exception as e:
         print("Error sending data to Discord:", e)
 
-# Scrape top 20 clans from territorial.io
-top_20_clans = scrape_top_clans()
+# Scrape top 30 clans from territorial.io
+top_30_clans = scrape_top_clans()
 
 # Custom message
-if top_20_clans:
+if top_30_clans:
     custom_message = "# Here are the top clans presented by CTV <:ctv:1167501777898328064>"
-    send_to_discord(top_20_clans, custom_message)
+    send_to_discord(top_30_clans, custom_message)
